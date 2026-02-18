@@ -1,0 +1,106 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int suma(int a, int b);
+int edad(int x);
+int factorial(int n);
+bool par(int s);
+
+int main()
+{
+    int opcion;
+
+    do
+    {
+        cout << "   ****  MENU  ****    " << endl; 
+        cout << " Elige una opcion:\n";
+        cout << " 1. Suma de numeros\n";
+        cout << " 2. Persona meyor de edad\n";
+        cout << " 3. Factorial de un numero\n";
+        cout << " 4. Numero par o impar\n";
+        cout << " 0. Salir\n";
+        cout << " Opcion: ";
+        cin >> opcion;
+
+        switch (opcion)
+        {
+        case 1:
+        {
+            int a, b;
+            cout << "Introduce el primer numero: ";
+            cin >> a;
+            cout << "Introduce el segundo numero: ";
+            cin >> b;
+            cout << "La suma es: " << suma(a, b) << endl;
+            break;
+        }
+        case 2:
+        {
+            int x;
+            cout << "Introduce el valor de x: ";
+            cin >> x;
+            edad(x);
+            break;
+        }
+        case 3:
+        {
+            int n;
+            cout << "Inserta el numero: ";
+            cin >> n;
+            cout << "El factorial del numero es: " << factorial(n) << endl;
+            break;
+        }
+        case 4: 
+            int s;
+            cout << "Ingresa un numero: ";
+            cin >> s;
+
+            if (par(s))
+                cout << "Es par" << endl;
+            else
+                cout << "Es impar" << endl;
+
+        case 0:
+            cout << "¡Hasta luego!\n";
+            return 0;
+            break;
+        default:
+            cout << "Opción no valida. Intenta de nuevo.\n";
+            break;
+        }
+
+    } while (opcion != 0);
+
+    return 0;
+}
+
+int suma(int a, int b)
+{  
+    return a + b;
+    
+}
+
+int edad(int x)
+{
+    if (x > 18)
+        cout << "El usuario es mayor de edad" << endl;
+    else
+        cout << "El usuario es menor de edad" << endl;
+    
+    return 0;
+}
+
+int factorial(int n)
+{
+    int numero = 1;
+    for (int i = 1; i <= n; i++) {
+        numero = numero * i;
+    }
+    return numero;
+}
+
+bool par(int s)
+{
+    return s % 2 == 0;
+}
