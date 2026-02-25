@@ -1,0 +1,60 @@
+#include <iostream>
+#include <cmath>  
+using namespace std;
+
+double discriminante(int a, int b, int c);
+double unica(int b, int a);
+double solucionreal(int a, int b, int c, double d, double& x2);
+double solucionimag(int a, int b, int c, double d, double& x2);
+
+int main() {
+    int a, b, c;
+    double d, x1, x2;
+
+    cout << "Introduce a: ";
+    cin >> a;
+    cout << "Introduce b: ";
+    cin >> b;
+    cout << "Introduce c: ";
+    cin >> c;
+
+    d = discriminante(a, b, c);
+
+    if (d == 0) {
+        cout << "Solucion unica: " << unica(b, a) << endl;
+    }
+    else if (d > 0) {
+        x1 = solucionreal(a, b, c, d, x2);
+        cout << "Las soluciones reales son: " << endl;
+        cout << "x1 = " << x1 << endl;
+        cout << "x2 = " << x2 << endl;
+    }
+    else {
+        x1 = solucionimag(a, b, c, d, x2);
+        cout << "Las soluciones imaginarias son: " << endl;
+        cout << "x1 = " << x1 << "+" << x2 << "i" << endl;
+        cout << "x2 = " << x1 << "-" << x2 << "i" << endl;
+    }
+
+    return 0;
+}
+
+double discriminante(int a, int b, int c) {
+    return (b * b - 4 * a * c); 
+}
+
+double unica(int b, int a) {
+    return -b / (2.0 * a);  
+}
+
+double solucionreal(int a, int b, int c, double d, double& x2) {
+    double x1 = (-b + sqrt(d)) / (2.0 * a);  
+    x2 = (-b - sqrt(d)) / (2.0 * a);       
+    return x1;
+}
+
+double solucionimag(int a, int b, int c, double d, double& x2) {
+    double x1 = -b / (2.0 * a);  
+    x2 = sqrt(-d) / (2.0 * a);  
+    return x1;
+}
