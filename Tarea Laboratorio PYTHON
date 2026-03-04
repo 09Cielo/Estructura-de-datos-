@@ -1,0 +1,45 @@
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        resultado = n * factorial(n - 1)
+        return resultado
+
+def tabla(numero, contador):
+    if contador <= 10:
+        print(numero, "+", contador, "=", numero + contador)
+        tabla(numero, contador + 1)
+
+def hexa(numero):
+    if numero < 100:
+        print(numero, "en hexadecimal es", hex(numero))
+        hexa(numero + 1)
+
+opcion = -1
+
+while opcion != 0:
+
+    print("\n----- MENU -----")
+    print("1. Calcular factorial")
+    print("2. Tabla de sumar")
+    print("3. Primeros 100 numeros hexadecimales")
+    print("0. Salir")
+
+    opcion = int(input("Elija una opcion: "))
+
+    if opcion == 1:
+        num = int(input("Ingrese un numero: "))
+        print("El factorial es:", factorial(num))
+
+    elif opcion == 2:
+        num = int(input("Ingrese el numero para la tabla: "))
+        tabla(num, 1)
+
+    elif opcion == 3:
+        hexa(0)
+
+    elif opcion == 0:
+        print("Programa terminado")
+
+    else:
+        print("Opcion incorrecta")
