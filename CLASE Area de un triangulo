@@ -1,0 +1,58 @@
+h.
+
+#pragma one
+
+class Triangulo
+{
+private:
+    float altura;
+    float base;
+
+public:
+    Triangulo();
+    ~Triangulo();
+    float calculararea(float b, float h);
+};
+
+.cpp
+
+#include "Triangulo.h"
+
+Triangulo::Triangulo()
+{
+    base = 4;
+    altura = 5;
+}
+
+Triangulo::~Triangulo()
+{
+}
+
+float Triangulo::calculararea(float b, float h)
+{
+    return (b * h) / 2;
+}
+
+.main
+
+#include "Triangulo.h"
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    float base, altura;
+
+    Triangulo triangulito;
+
+    cout << "Ingresar la base: ";
+    cin >> base;
+
+    cout << "Ingresar la altura: ";
+    cin >> altura;
+
+    cout << "El area es: " << triangulito.calculararea(base, altura);
+
+    return 0;
+}
