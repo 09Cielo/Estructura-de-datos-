@@ -1,0 +1,87 @@
+#include "DDqueue.h"
+#include "DDQueue.h"
+
+DDQueue::DDQueue() : cabeza(nullptr), cola(nullptr), items(0) {}
+
+
+DDQueue::~DDQueue() {
+    while (!empty()) {
+        get_front();
+    }
+}
+
+bool DDQueue::empty() const {
+    return items == 0;
+}
+
+int DDQueue::size() const {
+    return items;
+}
+
+// Insertar al final
+void DDQueue::put_back(DATA_TYPE valor) {
+    Nodo* nuevo = new Nodo(valor);
+    if (empty()) {
+        cabeza = cola = nuevo;
+    }
+    else {
+        cola->next = nuevo;
+        nuevo->prev = cola;
+        cola = nuevo;
+    }
+    items++;
+}
+
+// Insertar al inicio
+void DDQueue::put_front(DATA_TYPE valor) {
+    Nodo* nuevo = new Nodo(valor);
+    if (empty()) {
+        cabeza = cola = nuevo;
+    }
+    else {
+        nuevo->next = cabeza;
+        cabeza->prev = nuevo;
+        cabeza = nuevo;
+    }
+    items++;
+}
+
+// Sacar del frente
+DATA_TYPE DDQueue::get_front() {
+    if (empty()) return -1;
+
+    Nodo* temp = cabeza;
+    DATA_TYPE valor = temp->data;
+
+    cabeza = cabeza->next;
+    if (cabeza == nullptr) {
+        cola = nullptr; // Si no hay más nodos, la cola muere aquí
+    }
+    else {
+        cabeza->prev = nullptr;
+    }
+
+    delete temp; // Liberamos la memoria
+    items--;
+    return valor;
+}
+
+// Sacar de atrás
+DATA_TYPE DDQueue::get_back() {
+    if (empty()) return -1;
+
+    Nodo* temp = cola;
+    DATA_TYPE valor = temp->data;
+
+    cola = cola->prev;
+    if (cola == nullptr) {
+        cabeza = nullptr;
+    }
+    else {
+        cola->next = nullptr;
+    }
+
+    delete temp;
+    items--;
+    return valor;
+}
