@@ -1,0 +1,121 @@
+import tkinter as tk
+from tkinter import messagebox
+
+
+def obtener_valores():
+    try:
+        monto = float(entry_monto.get())
+        compra_bs = float(entry_compra_usdt_bs.get())
+        venta_soles = float(entry_venta_usdt_soles.get())
+        comision = float(entry_comision.get()) / 100
+        return monto, compra_bs, venta_soles, comision
+    except ValueError:
+        messagebox.showerror("Error", "Ingresa solo números válidos")
+        return None
+
+
+def bolivianos_a_soles():
+    datos = obtener_valores()
+    if not datos:
+        return
+
+    bolivianos, compra_bs, venta_soles, comision = datos
+
+    usdt = bolivianos / compra_bs
+    soles_bruto = usdt * venta_soles
+    soles_final = soles_bruto * (1 - comision)
+
+    resultado.set(
+        f"Recibes:\n"
+        f"{usdt:.4f} USDT\n"
+        f"S/ {soles_final:.2f}\n\n"
+        f"Comisión aplicada: {comision*100:.1f}%"
+    )
+
+
+def soles_a_bolivianos():
+    datos = obtener_valores()
+    if not datos:
+        return
+
+    soles, compra_bs, venta_soles, comision = datos
+
+    soles_ajustado = soles / (1 - comision)
+    usdt = soles_ajustado / venta_soles
+    bolivianos = usdt * compra_bs
+
+    resultado.set(
+        f"Necesitas:\n"
+        f"{usdt:.4f} USDT\n"
+        f"Bs {bolivianos:.2f}\n\n"
+        f"Incluye comisión: {comision*100:.1f}%"
+    )
+
+
+# Ventana
+ventana = tk.Tk()
+ventana.title("Calculadora Crypto Simple")
+ventana.geometry("400x480")
+ventana.config(bg="#f4f4f4")
+
+# Título
+tk.Label(
+    ventana,
+    text="Bs ⇄ USDT ⇄ Soles",
+    font=("Arial", 16, "bold"),
+    bg="#f4f4f4"
+).pack(pady=10)
+
+# Frame inputs
+frame_inputs = tk.Frame(ventana, bg="#f4f4f4")
+frame_inputs.pack(pady=10)
+
+def crear_input(texto):
+    tk.Label(frame_inputs, text=texto, bg="#f4f4f4").pack()
+    entry = tk.Entry(frame_inputs, justify="center")
+    entry.pack(pady=5)
+    return entry
+
+entry_monto = crear_input("Monto:")
+entry_compra_usdt_bs = crear_input("Compra USDT (Bs):")
+entry_venta_usdt_soles = crear_input("Venta USDT (S/):")
+entry_comision = crear_input("Comisión (%):")
+
+entry_comision.insert(0, "2")  # default 2%
+
+# Botones
+frame_botones = tk.Frame(ventana, bg="#f4f4f4")
+frame_botones.pack(pady=15)
+
+tk.Button(
+    frame_botones,
+    text="Bs → Soles",
+    width=15,
+    command=bolivianos_a_soles,
+    bg="#4CAF50",
+    fg="white"
+).grid(row=0, column=0, padx=5)
+
+tk.Button(
+    frame_botones,
+    text="Soles → Bs",
+    width=15,
+    command=soles_a_bolivianos,
+    bg="#2196F3",
+    fg="white"
+).grid(row=0, column=1, padx=5)
+
+# Resultado
+resultado = tk.StringVar()
+resultado.set("Aquí verás el resultado")
+
+tk.Label(
+    ventana,
+    textvariable=resultado,
+    font=("Arial", 11),
+    bg="#f4f4f4",
+    fg="#333"
+).pack(pady=20)
+
+
+ventana.mainloop()
