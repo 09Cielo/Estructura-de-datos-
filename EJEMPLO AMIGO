@@ -1,0 +1,181 @@
+.MAIN 
+#include "Amigo.h"
+#include <iostream>
+#include <fstream>
+#include <limits>
+
+using namespace std;
+
+void limpiar() {
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+void insertar() {
+
+    char nom[30];
+    int edad;
+    char sexo;
+
+    limpiar();
+
+    cout << "\n--- NUEVO AMIGO ---\n";
+
+    cout << "Nombre: ";
+    cin.getline(nom, 30);
+
+    cout << "Edad: ";
+    cin >> edad;
+
+    cout << "Sexo (M/F): ";
+    cin >> sexo;
+
+    Amigo a(nom, edad, sexo);
+
+    ofstream archivo("amigOO.dat", ios::binary | ios::app);
+
+    a.guardarArchivo(archivo);
+
+    archivo.close();
+
+    cout << "\n✔ Guardado correctamente\n";
+}
+
+void listar() {
+
+    ifstream archivo("amigOO.dat", ios::binary);
+
+    Amigo a;
+
+    int i = 1;
+
+    cout << "\n====== LISTA DE AMIGOS ======\n";
+
+    while (a.leerArchivo(archivo)) {
+
+        if (a.getEstado() == 'A') {
+
+            cout << "\nRegistro #" << i++;
+            cout << "\nNombre : " << a.getNombre();
+            cout << "\nEdad   : " << a.getEdad();
+            cout << "\nSexo   : " << a.getSexo();
+            cout << "\n----------------------";
+        }
+    }
+
+    archivo.close();
+}
+
+void buscar() {
+
+    int pos;
+
+    cout << "\nIngrese nro de registro: ";
+    cin >> pos;
+
+    ifstream archivo("amigOO.dat", ios::binary);
+
+    Amigo a;
+
+    if (a.buscar(archivo, pos)) {
+
+        cout << "\n✔ REGISTRO ENCONTRADO\n";
+        cout << "Nombre: " << a.getNombre() << endl;
+        cout << "Edad  : " << a.getEdad() << endl;
+        cout << "Sexo  : " << a.getSexo() << endl;
+    }
+    else {
+        cout << "\n✖ No existe\n";
+    }
+
+    archivo.close();
+}
+
+void eliminar() {
+
+    int pos;
+
+    cout << "\nRegistro a eliminar: ";
+    cin >> pos;
+
+    fstream archivo("amigOO.dat", ios::binary | ios::in | ios::out);
+
+    Amigo a;
+
+    if (a.eliminar(archivo, pos)) {
+        cout << "\n✔ Eliminado correctamente\n";
+    }
+    else {
+        cout << "\n✖ No se pudo eliminar\n";
+    }
+
+    archivo.close();
+}
+
+void modificar() {
+
+    int pos;
+    char nom[30];
+    int edad;
+    char sexo;
+
+    cout << "\nRegistro a modificar: ";
+    cin >> pos;
+
+    limpiar();
+
+    cout << "Nuevo nombre: ";
+    cin.getline(nom, 30);
+
+    cout << "Nueva edad: ";
+    cin >> edad;
+
+    cout << "Nuevo sexo: ";
+    cin >> sexo;
+
+    Amigo a(nom, edad, sexo);
+
+    fstream archivo("amigOO.dat", ios::binary | ios::in | ios::out);
+
+    archivo.seekp(a.getTamBytesRegistro() * (pos - 1), ios::beg);
+    a.guardarArchivo(archivo);
+
+    archivo.close();
+
+    cout << "\n✔ Modificado correctamente\n";
+}
+
+int main() {
+
+    int op;
+
+    do {
+
+        cout << "\n============================\n";
+        cout << "     SISTEMA DE AMIGOS     \n";
+        cout << "============================\n";
+        cout << "1. Insertar amigo\n";
+        cout << "2. Listar amigos\n";
+        cout << "3. Buscar amigo\n";
+        cout << "4. Eliminar amigo\n";
+        cout << "5. Modificar amigo\n";
+        cout << "6. Salir\n";
+        cout << "----------------------------\n";
+        cout << "Opcion: ";
+        cin >> op;
+
+        switch (op) {
+
+        case 1: insertar(); break;
+        case 2: listar(); break;
+        case 3: buscar(); break;
+        case 4: eliminar(); break;
+        case 5: modificar(); break;
+        case 6: cout << "\nSaliendo...\n"; break;
+
+        default: cout << "\nOpcion invalida\n";
+        }
+
+    } while (op != 6);
+
+    return 0;
+}
