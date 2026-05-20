@@ -1,0 +1,125 @@
+// ===== CLASE GIMNASIO =====
+class Gimnasio {
+private:
+    string nombreGym;
+    string direccion;
+    double cajaChica;        // Dinero total en efectivo/banco disponible
+    double alquilerMensual;   // Costo fijo de mantener el local
+    int capacidadMaxima;     // Límite de personas permitidas
+    bool abierto;            // Estado de operación del negocio
+
+public:
+    // ===== CONSTRUCTOR =====
+    Gimnasio(string nombreGym, string direccion, double alquilerMensual, int capacidadMaxima) {
+        this->nombreGym = nombreGym;
+        this->direccion = direccion;
+        this->alquilerMensual = alquilerMensual;
+        this->capacidadMaxima = capacidadMaxima;
+        
+        this->cajaChica = 0.0;   // Inicia en cero hasta recibir ingresos
+        this->abierto = false;   // Por defecto inicia cerrado
+    }
+
+    // ===== GETTERS =====
+    string getNombreGym() {
+        return nombreGym;
+    }
+
+    string getDireccion() {
+        return direccion;
+    }
+
+    double getCajaChica() {
+        return cajaChica;
+    }
+
+    double getAlquilerMensual() {
+        return alquilerMensual;
+    }
+
+    int getCapacidadMaxima() {
+        return capacidadMaxima;
+    }
+
+    bool estaAbierto() {
+        return abierto;
+    }
+
+    // ===== SETTERS =====
+    void setNombreGym(string nuevoNombre) {
+        nombreGym = nuevoNombre;
+    }
+
+    void setDireccion(string nuevaDireccion) {
+        direccion = nuevaDireccion;
+    }
+
+    void setAlquilerMensual(double nuevoAlquiler) {
+        if (nuevoAlquiler >= 0) {
+            alquilerMensual = nuevoAlquiler;
+        }
+    }
+
+    void setCapacidadMaxima(int nuevaCapacidad) {
+        if (nuevaCapacidad > 0) {
+            capacidadMaxima = nuevaCapacidad;
+        }
+    }
+
+    // ===== MÉTODOS FUNCIONALES =====
+
+    // Cambiar estado de apertura
+    void abrir() {
+        abierto = true;
+    }
+
+    void cerrar() {
+        abierto = false;
+    }
+
+    // Registrar flujos de efectivo directos (Sumar a caja)
+    void ingresarDinero(double monto) {
+        if (monto > 0) {
+            cajaChica += monto;
+        }
+    }
+
+    // Retirar dinero para gastos imprevistos o mantenimiento
+    void retirarDinero(double monto) {
+        if (monto > 0 && monto <= cajaChica) {
+            cajaChica -= monto;
+        }
+    }
+
+    // Pagar el alquiler mensual usando los fondos de la caja
+    void pagarAlquiler() {
+        if (cajaChica >= alquilerMensual) {
+            cajaChica -= alquilerMensual;
+            cout << "Alquiler pagado exitosamente. Debitado: Bs. " << alquilerMensual << endl;
+        } else {
+            cout << "Error: Fondos insuficientes en caja chica para pagar el alquiler.\n";
+        }
+    }
+
+    // Verificar la salud financiera del gimnasio según su liquidez
+    string estadoFinanciero() {
+        if (cajaChica > alquilerMensual * 3)
+            return "Excelente (Alta Rentabilidad)";
+        else if (cajaChica >= alquilerMensual)
+            return "Estable (Cubre costos basicos)";
+        else
+            return "Riesgo Financiero (Fondos Bajos)";
+    }
+
+    // Método para mostrar toda la información
+    void mostrarInfo() {
+        cout << "\n===== INFORMACION DEL GIMNASIO =====\n";
+        cout << "Gimnasio: " << nombreGym << endl;
+        cout << "Direccion: " << direccion << endl;
+        cout << "Capacidad Maxima: " << capacidadMaxima << " personas" << endl;
+        cout << "Costo de Alquiler: Bs. " << alquilerMensual << endl;
+        cout << "Saldo en Caja Chica: Bs. " << cajaChica << endl;
+        cout << "Situacion Financiera: " << estadoFinanciero() << endl;
+        cout << "Estado Actual: " << (abierto ? "Abierto - Operando" : "Cerrado") << endl;
+    }
+};
