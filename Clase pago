@@ -1,0 +1,146 @@
+// ===== CLASE PAGO =====
+class Pago {
+private:
+    int idPago;
+    int idCliente;
+
+    double montoBase;
+    double descuento;
+    double montoFinal;
+
+    string fecha;
+    string metodoPago;     // Efectivo, Tarjeta, QR
+    string tipoMembresia;  // Mensual, Trimestral, Anual
+
+    bool pagado;
+
+public:
+
+    // ===== CONSTRUCTOR =====
+    Pago(int idPago,
+         int idCliente,
+         double montoBase,
+         string fecha,
+         string metodoPago,
+         string tipoMembresia) {
+
+        this->idPago = idPago;
+        this->idCliente = idCliente;
+
+        this->montoBase = montoBase;
+        this->fecha = fecha;
+        this->metodoPago = metodoPago;
+        this->tipoMembresia = tipoMembresia;
+
+        descuento = 0;
+        montoFinal = montoBase;
+
+        pagado = true;
+    }
+
+    // ===== GETTERS =====
+
+    int getIdPago() {
+        return idPago;
+    }
+
+    int getIdCliente() {
+        return idCliente;
+    }
+
+    double getMontoBase() {
+        return montoBase;
+    }
+
+    double getDescuento() {
+        return descuento;
+    }
+
+    double getMontoFinal() {
+        return montoFinal;
+    }
+
+    string getFecha() {
+        return fecha;
+    }
+
+    string getMetodoPago() {
+        return metodoPago;
+    }
+
+    string getTipoMembresia() {
+        return tipoMembresia;
+    }
+
+    bool estaPagado() {
+        return pagado;
+    }
+
+    // ===== SETTERS =====
+
+    void setMetodoPago(string nuevoMetodo) {
+        metodoPago = nuevoMetodo;
+    }
+
+    void setTipoMembresia(string nuevaMembresia) {
+        tipoMembresia = nuevaMembresia;
+    }
+
+    // ===== MÉTODOS FUNCIONALES =====
+
+    // Aplicar descuento
+    void aplicarDescuento(double porcentaje) {
+
+        if (porcentaje > 0 && porcentaje <= 100) {
+
+            descuento = montoBase * (porcentaje / 100);
+
+            montoFinal = montoBase - descuento;
+        }
+    }
+
+    // Cambiar estado del pago
+    void cancelarPago() {
+        pagado = false;
+    }
+
+    void activarPago() {
+        pagado = true;
+    }
+
+    // Verificar membresía premium
+    bool esPremium() {
+
+        if (tipoMembresia == "Anual") {
+            return true;
+        }
+
+        return false;
+    }
+
+    // Mostrar información completa
+    void mostrarInfo() {
+
+        cout << "\n===== INFORMACION DEL PAGO =====\n";
+
+        cout << "ID Pago: " << idPago << endl;
+
+        cout << "ID Cliente: " << idCliente << endl;
+
+        cout << "Fecha: " << fecha << endl;
+
+        cout << "Metodo de pago: " << metodoPago << endl;
+
+        cout << "Tipo membresia: " << tipoMembresia << endl;
+
+        cout << "Monto base: Bs. " << montoBase << endl;
+
+        cout << "Descuento: Bs. " << descuento << endl;
+
+        cout << "Monto final: Bs. " << montoFinal << endl;
+
+        cout << "Estado: "
+             << (pagado ? "Pagado" : "Pendiente")
+             << endl;
+    }
+};
