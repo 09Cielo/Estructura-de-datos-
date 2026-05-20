@@ -1,0 +1,92 @@
+class Coach {
+private:
+    string especialidad;
+    int experiencia;   // años de experiencia
+    double salario;
+    bool disponible;
+
+public:
+    // Constructor
+    Coach(int id, string nombre, string especialidad, int experiencia, double salario)
+        : Persona(id, nombre) {
+
+        this->especialidad = especialidad;
+        this->experiencia = experiencia;
+        this->salario = salario;
+        this->disponible = true;
+    }
+
+    // ===== GETTERS =====
+    string getEspecialidad() {
+        return especialidad;
+    }
+
+    int getExperiencia() {
+        return experiencia;
+    }
+
+    double getSalario() {
+        return salario;
+    }
+
+    bool estaDisponible() {
+        return disponible;
+    }
+
+    // ===== SETTERS =====
+    void setEspecialidad(string nuevaEspecialidad) {
+        especialidad = nuevaEspecialidad;
+    }
+
+    void setExperiencia(int nuevaExperiencia) {
+        if (nuevaExperiencia >= 0) {
+            experiencia = nuevaExperiencia;
+        }
+    }
+
+    void setSalario(double nuevoSalario) {
+        if (nuevoSalario >= 0) {
+            salario = nuevoSalario;
+        }
+    }
+
+    // ===== MÉTODOS FUNCIONALES =====
+
+    // Cambiar disponibilidad
+    void ocupar() {
+        disponible = false;
+    }
+
+    void liberar() {
+        disponible = true;
+    }
+
+    // Verificar nivel del coach
+    string nivelCoach() {
+        if (experiencia >= 10)
+            return "Avanzado";
+        else if (experiencia >= 5)
+            return "Intermedio";
+        else
+            return "Principiante";
+    }
+
+    // Aumentar salario
+    void aumentarSalario(double porcentaje) {
+        if (porcentaje > 0) {
+            salario += salario * (porcentaje / 100);
+        }
+    }
+
+    // Método para mostrar toda la información
+    void mostrarInfo() {
+        cout << "ID: " << id
+             << " | Nombre: " << nombre
+             << " | Especialidad: " << especialidad
+             << " | Experiencia: " << experiencia << " anios"
+             << " | Nivel: " << nivelCoach()
+             << " | Salario: Bs. " << salario
+             << " | Estado: " << (disponible ? "Disponible" : "Ocupado")
+             << endl;
+    }
+};
