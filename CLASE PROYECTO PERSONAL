@@ -1,0 +1,84 @@
+// ===== CLASE CLIENTE =====
+class Cliente : public Persona {
+private:
+string tipoMembresia;
+double saldoPendiente;
+bool activo;
+
+public:
+// Constructor (Hereda id y nombre de Persona)
+Cliente(int id, string nombre, string tipoMembresia, double saldoPendiente)
+: Persona(id, nombre) {
+
+this->tipoMembresia = tipoMembresia;
+this->saldoPendiente = saldoPendiente;
+this->activo = false; // Por defecto inicia inactivo hasta registrar un pago
+}
+
+// ===== GETTERS =====
+string getTipoMembresia() {
+return tipoMembresia;
+}
+
+double getSaldoPendiente() {
+return saldoPendiente;
+}
+
+bool estaActivo() {
+return activo;
+}
+
+// ===== SETTERS =====
+void setTipoMembresia(string nuevaMembresia) {
+tipoMembresia = nuevaMembresia;
+}
+
+void setSaldoPendiente(double nuevoSaldo) {
+if (nuevoSaldo >= 0) {
+saldoPendiente = nuevoSaldo;
+}
+}
+
+// ===== MÉTODOS FUNCIONALES =====
+
+// Cambiar estado de membresía
+void activar() {
+activo = true;
+}
+
+void desactivar() {
+activo = false;
+}
+
+// Registrar un abono o pago a su cuenta
+void realizarPago(double monto) {
+if (monto > 0) {
+saldoPendiente -= monto;
+if (saldoPendiente <= 0) {
+saldoPendiente = 0; // Evita saldos negativos ficticios
+activar(); // Si saldó la deuda, se activa automáticamente
+}
+}
+}
+
+// Verificar categoría de cliente según su tipo de membresía
+string categoriaCliente() {
+if (tipoMembresia == "VIP" || tipoMembresia == "vip")
+return "Acceso Total + Spa";
+else if (tipoMembresia == "Premium" || tipoMembresia == "premium")
+return "Acceso Total";
+else
+return "Acceso Estándar";
+}
+
+// Método para mostrar toda la información
+void mostrarInfo() {
+cout << "ID: " << id
+<< " | Nombre: " << nombre
+<< " | Membresía: " << tipoMembresia
+<< " | Categoría: " << categoriaCliente()
+<< " | Saldo Pendiente: Bs. " << saldoPendiente
+<< " | Estado: " << (activo ? "Activo" : "Inactivo")
+<< endl;
+}
+};
